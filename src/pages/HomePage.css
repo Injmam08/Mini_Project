@@ -1,0 +1,20 @@
+/* src/pages/HomePage.css */
+.hero-section {
+  text-align: center;
+  padding: 4rem 1rem;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
