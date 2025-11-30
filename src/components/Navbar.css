@@ -59,6 +59,7 @@
   gap: 2rem;
   flex: 1;
   margin-left: 2rem;
+  z-index: 60;
 }
 
 .nav-links-group {
@@ -189,6 +190,7 @@
     transition: height 0.3s ease;
     align-items: flex-start;
     padding: 0;
+    z-index: 90;
   }
 
   .nav-menu.open {
@@ -220,6 +222,31 @@
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     padding-top: 1rem;
   }
+
+.user-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: rgba(233, 196, 106, 0.12);
+  color: #e9c46a;
+  border: 1px solid rgba(233,196,106,0.2);
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #e9c46a;
+  color: #2a9d8f;
+}
 
   .login-btn {
     width: 100%;
