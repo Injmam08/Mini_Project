@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { getUser } from '../utils/auth';
 import { getStoriesByUser, deleteStory } from '../utils/stories';
-import './auth.css';
+import './PageStyles.css';
 
 export default function MyStoriesPage() {
   const navigate = useNavigate();
@@ -18,29 +18,63 @@ export default function MyStoriesPage() {
   }, [user, navigate]);
 
   const handleDelete = (id) => {
-    deleteStory(id, user.email);
-    setStories(getStoriesByUser(user.email));
+    if (window.confirm('Are you sure you want to delete this story?')) {
+      deleteStory(id, user.email);
+      setStories(getStoriesByUser(user.email));
+    }
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h2 className="auth-title">My Stories</h2>
-        {stories.length === 0 ? (
-          <p>No stories yet. <button className="auth-button" onClick={() => navigate('/upload')}>Write one</button></p>
-        ) : (
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            {stories.map(s => (
-              <li key={s.id} style={{ marginBottom: 16, borderBottom: '1px solid #eee', paddingBottom: 12 }}>
-                <h3 style={{ margin: 0 }}>{s.title}</h3>
-                <small style={{ color: '#666' }}>{new Date(s.createdAt).toLocaleString()}</small>
-                <p style={{ marginTop: 8 }}>{s.content}</p>
-                <button className="auth-button" style={{ background: '#ef4444' }} onClick={() => handleDelete(s.id)}>Delete</button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div className="my-stories-page">
+      <header className="page-header-mystories">
+        <h1>📚 My Stories</h1>
+        <p>Manage and view all your shared travel experiences</p>
+      </header>
+
+      {stories.length === 0 ? (
+        <div className="no-stories">
+          
+          <h2>No Stories Yet</h2>
+          <p>Start documenting your travel adventures!</p>
+          <Link to="/upload">
+            <button className="btn-write-story">Write Your First Story</button>
+          </Link>
+        </div>
+      ) : (
+        <div className="stories-list">
+          <div className="stories-header">
+            <p className="stories-count">You have <strong>{stories.length}</strong> story(ies)</p>
+            <Link to="/upload">
+              <button className="btn-new-story">+ Write New Story</button>
+            </Link>
+          </div>
+
+          {stories.map((story) => (
+            <div key={story.id} className="story-item">
+              <div className="story-main">
+                <h3>{story.title}</h3>
+                <p className="story-destination"> {story.destination || 'Adventure'}</p>
+                <p className="story-preview">{story.description || story.content.substring(0, 150)}...</p>
+                <div className="story-meta">
+                  <span className="story-date">
+                     {new Date(story.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </span>
+                  <span className="story-category"> {story.category || 'Travel'}</span>
+                </div>
+              </div>
+              <div className="story-actions">
+                <button className="btn-edit"> Edit</button>
+                <button 
+                  className="btn-delete" 
+                  onClick={() => handleDelete(story.id)}
+                >
+               Delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
